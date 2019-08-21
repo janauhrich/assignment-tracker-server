@@ -19,8 +19,8 @@ router.get('/home', async (req, res, next) => {
 })
 
 router.post('/login', async (req, res, next) => {
-  const { username, password } = req.body
-  const user = await User.findOne({ username })
+  const { email, password } = req.body
+  const user = await User.findOne({ email })
   if (user) {
     const valid = await bcrypt.compare(password, user.password)
     if (valid) {
@@ -31,27 +31,27 @@ router.post('/login', async (req, res, next) => {
     }
   }
 
-  const message = `Username or password incorrect. Please check credentials and try again.`
+  const message = `Email or password incorrect. Please check credentials and try again.`
   const error = Error(message)
   error.status = 401
   next(error)
 })
 
 router.post('/signup', async (req, res, next) => {
-  const { username, password } = req.body
+  const { email, password, first_name, last_name } = req.body
   const rounds = 10
   const hashed = await bcrypt.hash(password, rounds)
 
-  const alreadyExists = await User.findOne({ username })
+  const alreadyExists = await User.findOne({ email })
   if (alreadyExists) {
-    const error = new Error(`Username '${username}' is already taken.`)
+    const error = new Error(`Email '${email}' is already taken.`)
     error.status = 400
 
     return next(error)
   }
 
   const status = 201
-  const user = await User.create({ username, password: hashed })
+  const user = await User.create({ email, password: hashed, first_name, last_name, admin: false })
   const token = generateToken(user._id)
   res.status(status).json({ status, token })
 })

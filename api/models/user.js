@@ -20,6 +20,7 @@ const schema = mongoose.Schema({
   },
   admin: {
     type: Boolean,
+    default: false,
     required: true
   },
   average: Number,
