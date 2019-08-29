@@ -42,13 +42,16 @@ router.put('/:assignmentId', isLoggedIn, isSameUser, async (req, res, next) => {
   res.status(status).json({ status, response: assignment })
 })
 
+//delete an assignment, middleware checks for authentication & authorization
 router.delete('/:assignmentId', isLoggedIn, isSameUser, async (req, res, next) => {
   const status = 200
 
+ //get userId & assignmentId from the params, use it to look up the user
   const { assignmentId, userId } = req.params
   const query = { _id: userId }
   const user = await User.findOne(query)
 
+// get an array of the users assignments and filter the given assignment out using the assignmentId 
   user.assignments = user.assignments.filter(assignment => assignment.id !== assignmentId)
   await user.save()
 
