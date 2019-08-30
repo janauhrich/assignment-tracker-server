@@ -26,7 +26,7 @@ router.post('/login', async (req, res, next) => {
     if (valid) {
       const status = 200
       const response = 'You have successful logged in.'
-      const token = generateToken(user._id)
+      const token = generateToken(user._id, user.admin)
       return res.status(status).json({ status, response, token })
     }
   }
@@ -52,7 +52,7 @@ router.post('/signup', async (req, res, next) => {
 
   const status = 201
   const user = await User.create({ email, password: hashed, first_name, last_name, admin: false })
-  const token = generateToken(user._id)
+  const token = generateToken(user._id, user.admin)
   res.status(status).json({ status, token })
 })
 
