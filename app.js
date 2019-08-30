@@ -11,7 +11,7 @@ const app = express()
 
 // CORS Access
 app.use(require('cors')({
-  origin: 'http://localhost:3000',
+  origin: CLIENT_BASE_URL,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }))
 
