@@ -18,7 +18,8 @@ router.get('/', isLoggedIn, async (req, res, next) => {
 
 })
 
-// wanted to experiment with an endpoint for ungraded/graded assignments - couldn't get react to listen
+// wanted to experiment with an endpoint for ungraded/graded assignments
+// I didn't end up using the ungraded/graded but i did get the unwinded assignments to work
 //http://localhost:5000/api/users/assignments?ungraded
 //http://localhost:5000/api/users/assignments?graded
 router.get('/assignments', isLoggedIn, isAdmin, async (req, res, next) => {
